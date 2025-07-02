@@ -1,52 +1,36 @@
-import React, { useState } from 'react';
-import { AuthProvider } from './contexts/AuthContext';
-import Header from './components/Header';
-import HomePage from './components/HomePage';
+import React from 'react';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import LoginModal from './components/LoginModal';
 import ERPLayout from './components/ERP/ERPLayout';
-import { useAuth } from './contexts/AuthContext';
 
 function AppContent() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'erp'>('home');
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const { user, logout } = useAuth();
+  const { user, isAuthenticated } = useAuth();
+  const [isLoginModalOpen, setIsLoginModalOpen] = React.useState(!isAuthenticated);
 
-  const handleLoginSuccess = () => {
-    setCurrentPage('erp'); // Redirect to ERP system after login
-  };
-
-  const handleNavigate = (page: string) => {
-    // Only allow navigation to ERP if user is logged in
-    if (page === 'erp' && !user) {
+  // Efeito para abrir o modal de login se o usuário deslogar
+  React.useEffect(() => {
+    if (!isAuthenticated) {
       setIsLoginModalOpen(true);
-      return;
+    } else {
+      setIsLoginModalOpen(false);
     }
-    setCurrentPage(page as 'home' | 'erp');
+  }, [isAuthenticated]);
+  
+  // Função para lidar com o sucesso do login
+  const handleLoginSuccess = () => {
+    setIsLoginModalOpen(false);
   };
 
-  const handleLogout = () => {
-    logout();
-    setCurrentPage('home');
-  };
-
-  // If user is logged in and on ERP page, show ERP layout
-  if (user && currentPage === 'erp') {
-    return <ERPLayout user={user} onLogout={handleLogout} />;
+  // Se o usuário estiver autenticado, mostra o ERP, senão, mostra o modal de login
+  if (isAuthenticated && user) {
+    return <ERPLayout user={user} onLogout={() => {}} />;
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header
-        onLoginClick={() => setIsLoginModalOpen(true)}
-        onNavigate={handleNavigate}
-        currentPage={currentPage}
-      />
-      
-      <HomePage />
-      
+    <div className="bg-gray-100 min-h-screen">
       <LoginModal
         isOpen={isLoginModalOpen}
-        onClose={() => setIsLoginModalOpen(false)}
+        onClose={() => setIsLoginModalOpen(false)} // Opcional: permitir fechar o modal
         onLoginSuccess={handleLoginSuccess}
       />
     </div>
