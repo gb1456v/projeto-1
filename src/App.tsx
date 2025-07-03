@@ -3,7 +3,7 @@
 import React from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import LoginModal from './components/LoginModal';
-import { ERPLayout } from './components/ERP/ERPLayout';
+import ERPLayout from './components/ERP/ERPLayout';
 
 function AppContent() {
   const { user, isAuthenticated, logout } = useAuth();
