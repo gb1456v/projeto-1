@@ -1,7 +1,7 @@
 import { useAuth } from '../contexts/AuthContext';
 
 const Header = () => {
-  const { user, logout, setShowLoginModal } = useAuth();
+  const { user, logout } = useAuth();
 
   return (
     <header className="bg-white shadow-md">
@@ -22,7 +22,7 @@ const Header = () => {
             </div>
           ) : (
             <button
-              onClick={() => setShowLoginModal(true)}
+              // TODO: Implement login modal trigger here
               className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600"
             >
               Login

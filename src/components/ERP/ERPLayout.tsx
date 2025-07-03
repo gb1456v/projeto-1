@@ -324,4 +324,6 @@ const ERPLayout: React.FC<ERPLayoutProps> = ({ user, onLogout }) => {
       )}
     </div>
   );
+}
+
 export default ERPLayout;
