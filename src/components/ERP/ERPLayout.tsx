@@ -21,7 +21,7 @@ import {
 import ProjectsView from './Projects/ProjectsView';
 import TasksView from './Tasks/TasksView';
 import TeamsView from './Teams/TeamsView';
-import ProfileEditModal from './Profile/ProfileEditModal';
+
 
 interface ERPLayoutProps {
   user: any;
@@ -322,15 +322,6 @@ const ERPLayout: React.FC<ERPLayoutProps> = ({ user, onLogout }) => {
           onClick={() => setSidebarOpen(false)}
         ></div>
       )}
-
-      {/* Profile Edit Modal */}
-      <ProfileEditModal
-        isOpen={profileModalOpen}
-        onClose={() => setProfileModalOpen(false)}
-        user={user}
-      />
     </div>
   );
-};
-
 export default ERPLayout;
